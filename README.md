@@ -2,49 +2,45 @@
 
 ## 개발 환경 설정
 
-### 1. node.js 설치
+### 1. [Node.js](https://nodejs.org/en/download/package-manager) 설치 (18 버전 이상)
 
-vite를 이용해 프로젝트가 build되기 때문에 14.18.0 이상의 node.js를 설치해 주세요.
-
-**node.js 사이트에서 설치**
-
-- https://nodejs.org/ko/
-
-**nvm으로 node.js 설치**
-
+```bash
+# installs nvm (Node Version Manager)
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+# download and install Node.js
+$ nvm install 18
+# verifies the right Node.js version is in the environment
+$ node -v # should print `v18.20.3`
+# verifies the right NPM version is in the environment
+$ npm -v # should print `10.7.0`
 ```
-# 14.18.0 버전이 설치되어 있지 않은 경우 설치해 주세요.
-$ nvm install
+### 2. [Yarn](https://yarnpkg.com/) 패키지 매니저 및 프로젝트 의존 패키지 설치
 
-$ nvm use
-```
-
-### 2. 의존성 설치
-
-```
-# yarn이 설치되어 있지 않은 경우 설치해 주세요.
+```bash
+# Yarn이 설치되어 있지 않은 경우 설치해 주세요.
 $ npm install --global yarn
 
+# 프로젝트 의존 패키지를 설치합니다.
 $ yarn install
 ```
+### 3. [Git](https://git-scm.com/) 설정
 
-### 3. 로컬 서버 실행
-
+```bash
+# git을 초기화 합니다.
+$ git init
 ```
+
+### 4. 로컬 서버 실행
+
+```bash
 $ yarn dev
 ```
-
 - http://localhost:3000
 
 ## 과제 설명
 
-과제 수행하면서 고민한 점을 자유롭게 작성해서 메일로 제출해주세요.
-
-- 기한: 과제 제출 이후 24시간 내
-- 메일: hr_dev_frontend@a-bly.com
-
-예시
+과제를 수행하면서 고민한 점을 자유롭게 작성해서 이 파일에 업데이트 해주세요.
 
 - 과제 구현에 대한 설명
-- 강조하고 싶은 부분, 설계 의도
-- 아쉬웠던 점이나 더 개선할 여지가 있는 부분
+- 설계 의도와 특별히 강조하고 싶은 부분
+- 아쉬운점, 개선의 여지가 있는 부분
