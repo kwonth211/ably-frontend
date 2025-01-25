@@ -1,31 +1,39 @@
-import { GoodsListLayout, GoodsCard, HotdealTimer } from '@/components';
-
-const HOTDEAL_LIST = [
-  {
-    id: 29,
-    name: '[롬앤] 한올 픽스 마스카라 2type',
-    image:
-      'https://d20s70j9gw443i.cloudfront.net/t_GOODS_THUMB_WEBP/https://imgb.a-bly.com/data/goods/20210315_1615776154023797s.jpg',
-    price: 5450,
-  },
-  {
-    id: 30,
-    name: '[한정특가 봄 신상품 소개합니다] 봄 크롭 가디건 빅 사이즈',
-    image:
-      'https://d20s70j9gw443i.cloudfront.net/t_GOODS_THUMB_WEBP/https://imgb.a-bly.com/data/goods/20210311_1615440353020983s.jpg',
-    price: 26000,
-  },
-];
+import { HotdealTimer } from '@/components';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import HotdealContent from '@/components/HotDealContent';
+import { useHotdealTime, useRemainingTime } from '@/hooks';
+import { formatOnlyHour, formatTimeDisplay } from '@/utils';
+import { Suspense } from 'react';
 
 function Hotdeal() {
+  const { hotdealTime, isLoading, isError } = useHotdealTime();
+  const remainingTime = useRemainingTime(
+    hotdealTime.startTime,
+    hotdealTime.endTime,
+  );
+
+  if (isLoading) return <div>핫딜 시간을 조회중입니다...</div>;
+  if (isError) return <div>핫딜 시간 조회중 에러가 발생했습니다.</div>;
+
   return (
     <>
-      <HotdealTimer />
-      <GoodsListLayout title="핫딜 상품">
-        {HOTDEAL_LIST.map(({ id, ...item }) => (
-          <GoodsCard key={id} {...item} />
-        ))}
-      </GoodsListLayout>
+      <HotdealTimer
+        title={
+          remainingTime !== '00:00:00'
+            ? `🔥 핫딜이 ${formatTimeDisplay(remainingTime)} 남았어요`
+            : ''
+        }
+        subTitle={`핫딜 시간: ${formatOnlyHour(
+          hotdealTime.startTime,
+        )} ~ ${formatOnlyHour(hotdealTime.endTime)}`}
+      />
+      <ErrorBoundary
+        fallback={<div>핫딜 상품 조회중 에러가 발생했습니다.</div>}
+      >
+        <Suspense fallback={<div>핫딜 상품을 조회중입니다...</div>}>
+          <HotdealContent />
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 }
