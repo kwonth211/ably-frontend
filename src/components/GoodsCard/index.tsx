@@ -1,12 +1,13 @@
+import useLikeStore from '@/zustand';
+import LikeButton from '../LikeButton';
 import styles from './index.module.css';
+import { Goods } from '@/interface';
 
-export interface GoodsCardProps {
-  image: string;
-  price: number;
-  name: string;
+export interface GoodsCardProps extends Goods {
+  floatingButton?: React.ReactNode;
 }
 
-function GoodsCard({ image, price, name }: GoodsCardProps) {
+function GoodsCard({ image, price, name, floatingButton }: GoodsCardProps) {
   const formattedPrice = price.toLocaleString('ko-KR');
 
   return (
@@ -14,6 +15,9 @@ function GoodsCard({ image, price, name }: GoodsCardProps) {
       <img className={styles.image} src={image} alt="상품 이미지" />
       <p className={styles.priceText}>{formattedPrice}</p>
       <p className={styles.priceTitle}>{name}</p>
+      {floatingButton && (
+        <div className={styles.fixedLikeButton}>{floatingButton}</div>
+      )}
     </div>
   );
 }
