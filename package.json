@@ -5,14 +5,17 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-css-modules": "^4.7.11",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.2",
+    "swr": "^1.0.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
