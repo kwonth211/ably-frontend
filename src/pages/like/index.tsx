@@ -1,19 +1,31 @@
 import { useState } from 'react';
-import { GoodsCard, GoodsListLayout } from '@/components';
+import { Checkbox, GoodsCard, GoodsListLayout } from '@/components';
 import styles from './index.module.css';
-
-const LIKE_LIST: any[] = [];
+import useLikeStore from '@/zustand';
 
 function Like() {
   const [isEditMode, setIsEditMode] = useState(false);
+  const { likedItems, removeLikedItems } = useLikeStore();
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
   const toggleIsEditMode = () => {
     setIsEditMode(state => !state);
   };
+  const handleSelect = (id: number) => {
+    setSelectedItems(prev =>
+      prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id],
+    );
+  };
+
+  const handleDelete = () => {
+    removeLikedItems(selectedItems);
+    setSelectedItems([]);
+    setIsEditMode(false);
+  };
 
   return (
     <>
-      {LIKE_LIST.length ? (
+      {likedItems.length ? (
         <>
           <header className={styles.header}>
             <h1 className={styles.title}>찜한 상품</h1>
@@ -23,13 +35,26 @@ function Like() {
           </header>
 
           <GoodsListLayout>
-            {LIKE_LIST.map((item, index) => (
-              <GoodsCard key={index} {...item} />
+            {likedItems.map((item, index) => (
+              <GoodsCard
+                key={index}
+                {...item}
+                floatingButton={
+                  isEditMode && (
+                    <Checkbox
+                      value={selectedItems.includes(item.id)}
+                      onChange={() => handleSelect(item.id)}
+                    />
+                  )
+                }
+              />
             ))}
           </GoodsListLayout>
 
-          {isEditMode && (
-            <button className={styles.deleteButton}>상품 삭제</button>
+          {isEditMode && selectedItems.length !== 0 && (
+            <button className={styles.deleteButton} onClick={handleDelete}>
+              상품 삭제
+            </button>
           )}
         </>
       ) : (
